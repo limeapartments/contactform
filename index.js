@@ -3,6 +3,10 @@ const https = require('https')
 const nodemailer = require('nodemailer')
 const express = require('express')
 
+const receivers = [
+  'jchancehud@gmail.com',
+]
+
 const app = express()
 
 const privateKey = fs.readFileSync('/ssl/privkey.pem')
@@ -31,7 +35,7 @@ app.post('/send', async (req, res) => {
     })
     const info = await transport.sendMail({
       from: 'contact@limeapartments.com',
-      to: 'jchancehud@gmail.com',
+      to: receivers,
       subject: 'New Contact',
       html: `
       First Name: ${req.body.firstname}

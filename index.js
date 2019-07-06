@@ -24,6 +24,14 @@ if (fs.existsSync('./credentials.js')) {
 
 app.use(express.json())
 
+// CORS
+app.use((_, res, next) => {
+  res.set('Access-Control-Allow-Origin', '*')
+  res.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+  res.set('Access-Control-Allow-Headers', 'content-type')
+  next()
+})
+
 app.post('/send', async (req, res) => {
   try {
     const transport = nodemailer.createTransport({

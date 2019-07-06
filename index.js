@@ -46,16 +46,22 @@ app.post('/send', async (req, res) => {
       to: receivers,
       subject: 'New Contact',
       html: `
-      First Name: ${req.body.firstname}
-
-      Last Name: ${req.body.lastname}
-
-      Email: ${req.body.email}
-
-      Phone: ${req.body.phone}
-
-      Comments:
-      ${req.body.comments}
+      <p>
+        First Name: ${req.body.firstname}
+      </p>
+      <p>
+        Last Name: ${req.body.lastname}
+      </p>
+      <p>
+        Email: ${req.body.email}
+      </p>
+      <p>
+        Phone: ${req.body.phone}
+      </p>
+      <p>
+        Comments:
+        ${req.body.comments}
+      </p>
       `,
     })
   } catch (err) {

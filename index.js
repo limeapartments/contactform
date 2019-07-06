@@ -32,7 +32,19 @@ app.post('/send', async (req, res) => {
     const info = await transport.sendMail({
       from: 'contact@limeapartments.com',
       to: 'jchancehud@gmail.com',
-      html: '<p>Hello World</p>',
+      subject: 'New Contact',
+      html: `
+      First Name: ${req.body.firstname}
+
+      Last Name: ${req.body.lastname}
+
+      Email: ${req.body.email}
+
+      Phone: ${req.body.phone}
+
+      Comments:
+      ${req.body.comments}
+      `,
     })
   } catch (err) {
     console.log('Error sending email', err)

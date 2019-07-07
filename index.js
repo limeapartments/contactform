@@ -1,7 +1,9 @@
 const fs = require('fs')
 const https = require('https')
+const http = require('http')
 const nodemailer = require('nodemailer')
 const express = require('express')
+const path = require('path')
 
 const receivers = [
   'jchancehud@gmail.com',
@@ -9,13 +11,12 @@ const receivers = [
 
 const app = express()
 
-const privateKey = fs.readFileSync('/ssl/privkey.pem')
-const certificate = fs.readFileSync('/ssl/fullchain.pem')
+const sslPath = '/ssl'
 
-const server = https.createServer({
-  key: privateKey,
-  cert: certificate,
-}, app)
+const server = fs.existsSync(sslPath) ? https.createServer({
+  key: fs.readFileSync(path.join(sslPath, 'privkey.pem')),
+  cert: fs.readFileSync(path.join(sslPath, 'fullchain.pem')),
+}, app) : http.createServer(app)
 
 // If we have local credentials load them
 if (fs.existsSync('./credentials.js')) {

@@ -8,6 +8,6 @@ WORKDIR /src
 
 COPY . .
 
-RUN npm install
+RUN npm ci
 
 CMD ["/usr/bin/node", "."]

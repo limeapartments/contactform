@@ -4,13 +4,26 @@ const http = require('http')
 const nodemailer = require('nodemailer')
 const express = require('express')
 const path = require('path')
+const validator = require('email-validator')
 
 // If we have local credentials load them
 if (fs.existsSync('./credentials.js')) {
   require('./credentials')
 }
 
-const receivers = (process.env.RECEIVER_EMAILS || '').split(',')
+if (!process.env.RECEIVER_EMAILS) {
+  console.log('No receiver emails specified')
+  return process.exit(1)
+}
+
+const receivers = process.env.RECEIVER_EMAILS.split(',')
+
+// Validate supplied receiver emails
+for (const email of receivers) {
+  if (validator.validate(email)) continue
+  console.log(`Invalid email "${email}" supplied, exiting`)
+  return process.exit(1)
+}
 
 const app = express()
 app.use(express.json())
@@ -73,4 +86,6 @@ app.post('/send', async (req, res) => {
 app.get('/ping', (req, res) => res.send('pong'))
 
 // Bind to 443 at the vm abstraction level
-server.listen(4000)
+server.listen(4000, () => {
+  console.log('Listening for emails at', receivers.join(','))
+})

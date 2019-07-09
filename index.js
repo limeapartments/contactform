@@ -56,7 +56,7 @@ app.post('/send', async (req, res) => {
       from: 'contact@limeapartments.com',
       to: receivers,
       subject: 'New Contact',
-      html: `First Name: ${req.body.firstname}
+      html: `First Name: ${req.body.firstname} ${req.body.lastname}
 Email Address: ${req.body.email}
 Lead Channel: Lime Apartments
 Comments: ${req.body.comments}`,

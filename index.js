@@ -56,24 +56,10 @@ app.post('/send', async (req, res) => {
       from: 'contact@limeapartments.com',
       to: receivers,
       subject: 'New Contact',
-      html: `
-      <p>
-        First Name: ${req.body.firstname}
-      </p>
-      <p>
-        Last Name: ${req.body.lastname}
-      </p>
-      <p>
-        Email: ${req.body.email}
-      </p>
-      <p>
-        Phone: ${req.body.phone}
-      </p>
-      <p>
-        Comments:
-        ${req.body.comments}
-      </p>
-      `,
+      html: `First Name: ${req.body.firstname}
+Email Address: ${req.body.email}
+Lead Channel: Lime Apartments
+Comments: ${req.body.comments}`,
     })
   } catch (err) {
     console.log('Error sending email', err)

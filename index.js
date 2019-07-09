@@ -55,7 +55,7 @@ app.post('/send', async (req, res) => {
     const info = await transport.sendMail({
       from: 'contact@limeapartments.com',
       to: receivers,
-      subject: 'New Contact',
+      subject: 'Lime Apartments',
       html: `First Name: ${req.body.firstname} ${req.body.lastname}
 Email Address: ${req.body.email}
 Lead Channel: Lime Apartments

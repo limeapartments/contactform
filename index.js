@@ -2,20 +2,6 @@ const nodemailer = require('nodemailer')
 const express = require('express')
 const validator = require('email-validator')
 
-if (!process.env.RECEIVER_EMAILS) {
-  console.log('No receiver emails specified')
-  return process.exit(1)
-}
-
-const receivers = process.env.RECEIVER_EMAILS.split(',')
-
-// Validate supplied receiver emails
-for (const email of receivers) {
-  if (validator.validate(email)) continue
-  console.log(`Invalid email "${email}" supplied, exiting`)
-  return process.exit(1)
-}
-
 const app = express()
 app.use(express.json())
 
@@ -28,6 +14,18 @@ app.use((_, res, next) => {
 })
 
 app.post('/send', async (req, res) => {
+  if (!process.env.RECEIVER_EMAILS) {
+    console.log('No receiver emails specified')
+    return res.status(500).end()
+  }
+  const receivers = process.env.RECEIVER_EMAILS.split(',')
+  // Validate supplied receiver emails
+  for (const email of receivers) {
+    if (validator.validate(email)) continue
+    console.log(`Invalid email "${email}" supplied, exiting`)
+    return res.status(500).end()
+  }
+
   try {
     const transport = nodemailer.createTransport({
       service: 'gmail',

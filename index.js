@@ -34,15 +34,24 @@ app.post('/send', async (req, res) => {
         pass: process.env.SENDER_PASSWORD,
       }
     })
+    const {
+      name: _name,
+      email,
+      firstname,
+      lastname,
+      comments,
+      _receiver
+    } = req.body
+    const name = _name || `${firstname} ${lastname}`
     const info = await transport.sendMail({
       from: 'contact@limeapartments.com',
-      to: receivers,
+      to: /* _receiver || */ receivers,
       subject: 'Lime Apartments',
-      html: `First Name: ${req.body.firstname} ${req.body.lastname}
-Email Address: ${req.body.email}
+      html: `Name: ${name}
+Email Address: ${email}
 Lead Channel: Lime Apartments
-Comments: ${req.body.comments}`,
-    })
+Comments: ${comments}`,
+    } )
   } catch (err) {
     console.log('Error sending email', err)
     res.status(500).send('Error sending email')
